@@ -1,22 +1,18 @@
 package com.solvabit.diceroller
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import kotlin.random.Random
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.solvabit.diceroller.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var diceimage: ImageView
-    lateinit var dicetext: TextView
+    private lateinit var binding: ActivityMainBinding
+    private val dice_no:Dataclass=Dataclass("1")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        diceimage=findViewById(R.id.dice_image)
-        dicetext = findViewById(R.id.dice_text)
-        val roll_the_dice = findViewById<Button>(R.id.rollthedice)
-        roll_the_dice.setOnClickListener {
+        binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding.dicetext=dice_no
+        binding.rollthedice.setOnClickListener {
             rolldice()
         }
     }
@@ -32,8 +28,11 @@ class MainActivity : AppCompatActivity() {
             6->R.drawable.dice_6
             else-> R.drawable.dice_6
         }
-        diceimage.setImageResource(dice_drawable)
-        dicetext.text=random.toString()
+        binding.apply {
+            invalidateAll()
+            binding.diceImage.setImageResource(dice_drawable)
+            dice_no.text = random.toString()
+        }
     }
 
 }
